@@ -1,0 +1,39 @@
+﻿@model Recon.Web.Models.LoginModel
+
+<section id="loginForm">
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "well" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Log in Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.RememberMe)
+                @Html.CheckBoxFor(m => m.RememberMe)
+            </li>
+        </ol>
+        <input type="submit" value="Log in" class="btn btn-primary"/>
+    </fieldset>
+    <br />
+    <p>
+        If you don't have an account, you can request one from SPC by <a href="mailto:brunod@spc.int">email</a> (please refer your country in the email)
+    </p>
+}
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

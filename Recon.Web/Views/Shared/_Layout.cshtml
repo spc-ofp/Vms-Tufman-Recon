@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <style>
+        body
+        {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
+    <link rel="SHORTCUT ICON" href="@Url.Content("~/Content/favicon.ico")"/>
+    <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>  
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/pageguide.min.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/pageguide.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/toastr-1.1.5.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/toastr.min.css")" rel="stylesheet" type="text/css" />
+    <script  src="https://www.google.com/jsapi" type="text/javascript"></script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <div class="nav-collapse">
+                    <ul class="nav pull-left">
+                        <li><img src="@Url.Content("~/Content/images/spc_logo_min.png")" alt="spc_logo" style="margin-right: 10px; margin-left: 10px;  margin-top: 5px;"/></li>
+                        <li>@Html.ActionLink("TUFMAN VMS RECONCILIATION", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "brand" })</li>
+                    </ul>
+                </div>
+                <div class="nav-collapse">
+                    <ul class="nav pull-right">
+                    @if (Request.IsAuthenticated)
+                    {
+                        if(User.IsInRole("Admin"))
+                        {   
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" icon-wrench"></i> Admin<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Register new user", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })</li>
+                                </ul>
+                            </li>
+                        }
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> @User.Identity.Name<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Manage", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })</li>
+                                <li>@Html.ActionLink("Log off", "LogOff", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Log off" })</li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Login", "Account")"><i class="icon-user"></i> Log in</a></li>   
+                    }
+                    <li>@Html.RouteLink("About", new { controller = "Home", action = "About" })</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/jquery-ui-1.8.22.min.js")" type="text/javascript"></script>*@
+    @*<script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MicrosoftMVCAjax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jsapi.js")" type="text/javascript"></script>*@
+    
+
+    @RenderSection("AdditionalScripts", false)
+    @RenderSection("scripts", required: false)
+</body>
+</html>

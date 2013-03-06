@@ -1,0 +1,299 @@
+﻿@{
+    ViewBag.Title = "TUFMAN VMS Reconciliation";
+    }
+<script type="text/javascript">
+
+    //    Hide the loading bar
+    function onSearchSuccess() {
+        document.getElementById('progressBar').style.display = "none";
+        document.getElementById('reconTable').style.display = "block";
+        drawChart();
+    }
+
+    //    Show the loading bar
+    function searching() {
+        document.getElementById('progressBar').style.display = "block";
+        document.getElementById('reconTable').style.display = "none";
+    }
+
+    google.load("visualization", "1", { packages: ["corechart"] });
+
+    $(document).ready(function () {
+        tl.pg.init('options', {
+            step: {
+                shadow: true
+            }
+        });
+        $('#detail').popover();
+    });
+
+    
+</script>
+
+
+
+@*Show the different messages on top of the screen*@
+@if (!string.IsNullOrEmpty(ViewBag.errorMessage))
+{
+    <div class="alert alert-error">
+        <button class="close" data-dismiss="alert">
+            ×</button>
+        <strong>@ViewBag.errorMessage</strong>
+    </div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.warningMessage))
+{
+    <div class="alert">
+        <button class="close" data-dismiss="alert">
+            ×</button>
+        <strong>@ViewBag.warningMessage</strong>
+    </div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.successMessage))
+{
+    <div class="alert alert-success">
+        <button class="close" data-dismiss="alert">
+            ×</button>
+        <strong>@ViewBag.successMessage</strong>
+    </div>
+}
+@if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Region"))
+{
+    using (Html.BeginForm("Index", "VmsTufmanRecon", FormMethod.Post, new { @class = "well form", }))
+    {
+    <div class="row-fluid">
+        <div class="span3">
+            TUFMAN @Html.DropDownList("tufman", (IEnumerable<SelectListItem>)ViewBag.tufman, "- select country -", new { onchange = "this.form.submit()" })
+        </div>
+
+    </div>
+    }
+}
+else
+{
+     @Html.Hidden("tufman",(String)ViewBag.selectedTufman)
+}
+
+@if (ViewBag.showFilters)
+{
+    AjaxOptions searchOptions = new AjaxOptions { HttpMethod = "Get", OnBegin = "searching", OnSuccess = "onSearchSuccess", UpdateTargetId = "reconTable" };
+    using (Ajax.BeginForm("Search", "VmsTufmanRecon", new { tufman = ViewBag.selectedTufman }, searchOptions, new { @class = "well form" }))
+    {
+    <div class="row-fluid">
+        <div class="span1">
+            GEAR* @Html.DropDownList("gear", (IEnumerable<SelectListItem>)ViewBag.gear, "- select gear -", new { @class = "span12" })
+        </div>
+        <div class="span2">
+            FLEET @Html.DropDownList("fleet", Enumerable.Empty<SelectListItem>(), "- All fleets -", new { @class = "span12", @disabled = "disabled" })
+        </div>
+        <div class="span3">
+            FISHING COMPANY @Html.DropDownList("fishingCompany", Enumerable.Empty<SelectListItem>(), "- All fishing companies -", new { @class = "span12", @disabled = "disabled" })
+        </div>
+        <div class="span1">
+            YEAR @Html.DropDownList("year", (SelectList)ViewBag.year, "- All years -", new { @class = "span12" })
+        </div>
+        <div class="span2">
+            VESSEL NAME @Html.TextBox("vesselName", null, new { @class = "span12" })
+        </div>
+        <div class="span2">
+            CRITERIA @Html.DropDownList("criteria", (SelectList)ViewBag.criteria, "- No criteria -", new { @class = "span12" })
+        </div>
+        <div class="span1">
+            MIN DURATION @Html.DropDownList("minNbDays", (SelectList)ViewBag.minNbDays, new { @class = "span12" })
+        </div>
+    </div>
+    <input id="detail" type="submit" name="button" value="Detail" class="btn btn-primary" disabled />
+    <input id="recon" type="submit" name="button" value="Coverage" class="btn btn-primary" disabled/>
+    }
+}
+
+
+
+
+<div class="fluid">
+    <div id="progressBar" style="display: none;" class="span12">
+        <img src="@Url.Content("~/Content/images/ajax-loader.gif")" alt="Loading..."/>
+    </div>
+</div>
+
+<div id="reconTable" style="display: none;">
+</div>
+
+<ul id="tlyPageGuide" data-tourtitle="CLICK FOR HELP">
+  <li class="tlypageguide_right" data-tourtarget="#tufman">
+    <div>
+      SELECT A TUFMAN SYSTEM
+      <br />
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#gear">
+    <div>
+      SELECT GEAR
+      <br />
+      - LL: Longliner
+      <br />
+      - PS: Purse Seiner
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#fleet">
+    <div>
+      SELECT FLEET
+      <br />
+      National Fleet is as flagged in the selected TUFMAN System
+      If National Fleet selected, data covers the WCPFC Area
+      If not, data covers only your EEZ
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#fishingCompany">
+    <div>
+      SELECT FISHING COMPANY
+      <br />
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#year">
+    <div>
+      SELECT YEAR
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#vesselName">
+    <div>
+      TYPE VESSEL NAME
+      <br />
+      Hint: Will return all vessels with a name that <b>contains</b> the text, not an exact match
+      <br />
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#criteria">
+    <div>
+      FILTER CRITERIA
+      <br />
+      Missing Logsheet Only: List only the VMS Trips without any logsheet
+      <br />
+      Missing VMS Only: List only the logsheet without any VMS information
+      <br />
+      Reconciled Trips Only: List only the VMS trips reconciled with a logsheet
+     </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#minNbDays">
+    <div>
+      MINIMUM DURATION OF A TRIP IN DAYS
+      <br />
+      Hint: The computation of days by EEZ excludes the transit days, from both logsheets and VMS trips. Thus, a vessel transiting only through your EEZ will have 0 days.
+      <br />
+      It's possible to set a minimum number of days in your EEZ to remove short trips, or let 0 not to apply this filter.
+      </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#detail">
+    <div>
+      DETAILED RECONCILIATION
+      <br />
+      The detailed reconciliation report lists trip by trip the VMS and the logsheet activity.
+      It is usefull for listing missing logsheets, by flag and by fishing company.
+      </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#recon">
+    <div>
+      COVERAGE RATE
+      <br />
+      Coverage report will provide the logsheet coverage rate and the raised catch and effort information.
+      This report is generated by Fleet and Year, not using Fishing company, Vessel Name, Criteria or Min Duration filters (that 
+
+      </div>
+  </li>
+</ul>
+
+<script type="text/javascript">
+    $('#gear').change(function () {
+        $('#fishingCompany').val(0);
+        $('#fishingCompany').attr('disabled', 'disabled');
+        var selectedGear = $(this).val();
+        var FleetSelected = $('#fleet');
+        var DetailButton = $('#detail');
+        var ReconButton = $('#recon');
+        if (selectedGear != null && selectedGear != '') {
+            $.getJSON('@Url.Action("Fleets")', { tufman: $('#tufman').val(), gear: selectedGear }, function (fleetFunction) {
+
+                FleetSelected.empty();
+                FleetSelected.removeAttr('disabled');
+                FleetSelected.append($('<option/>', {
+                    value: 0,
+                    text: "- All fleets -"
+                }));
+                $.each(fleetFunction, function (index, fleetFunction) {
+                    FleetSelected.append($('<option/>', {
+                        value: fleetFunction.Value,
+                        text: fleetFunction.Text
+                    }));
+                });
+            });
+            DetailButton.removeAttr('disabled');
+            ReconButton.removeAttr('disabled');
+        }
+        else {
+            FleetSelected.attr('disabled', 'disabled');
+            FleetSelected.empty();
+            FleetSelected.append($('<option/>', {
+                value: 0,
+                text: "- All fleets -"
+            }));
+            var DetailButton = $('#detail');
+            var ReconButton = $('#recon');
+            DetailButton.attr('disabled', 'disabled');
+            ReconButton.attr('disabled', 'disabled');
+        }
+
+    });
+</script>
+
+<script type="text/javascript">
+    $('#fleet').change(function () {
+        var selectedFleet = $(this).val();
+        var FishingCompanySelected = $('#fishingCompany');
+        var DetailButton = $('#detail');
+        var ReconButton = $('#recon');
+        if (selectedFleet != null && selectedFleet != '' && document.getElementById('fleet').selectedIndex != 0) {
+            $.getJSON('@Url.Action("FishingCompanies")', { tufman: $('#tufman').val(), gear: $('#gear').val(), fleet: selectedFleet }, function (fishingCompanyFunction) {
+
+                FishingCompanySelected.empty();
+                FishingCompanySelected.removeAttr('disabled');
+                FishingCompanySelected.append($('<option/>', {
+                    value: 0,
+                    text: "- All fishing companies -"
+                }));
+                $.each(fishingCompanyFunction, function (index, fishingCompanyFunction) {
+                    FishingCompanySelected.append($('<option/>', {
+                        value: fishingCompanyFunction.Value,
+                        text: fishingCompanyFunction.Text
+                    }));
+                });
+            });
+        }
+        else {
+            FishingCompanySelected.attr('disabled', 'disabled');
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    document.getElementById('recon').onclick = function () {
+        if ($('#fishingCompany').val() != 0) {
+            $('#fishingCompany').val(0);
+            toastr.warning('Coverage cannot be filtered by Fishing Company');
+        }
+        if ($('#criteria').val() != 0) {
+            $('#criteria').val(0);
+            toastr.warning('Coverage cannot be filtered by Criteria');
+        }
+        if ($('#minNbDays').val() != 0) {
+            $('#minNbDays').val(0);
+            toastr.warning('Coverage cannot be filtered by Min Nb Days');
+        }
+        if ($('#vesselName').val().length > 0) {
+            $('#vesselName').val("");
+            toastr.warning('Coverage cannot be filtered by Vessel Name');
+        }
+
+
+    };
+</script>
+

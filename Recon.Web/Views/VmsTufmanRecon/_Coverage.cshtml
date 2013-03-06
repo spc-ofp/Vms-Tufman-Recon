@@ -1,0 +1,121 @@
+﻿@model List<Recon.Domain.Recon.VmsTufmanCoverage>
+           
+<script type="text/javascript">
+       
+
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(@Html.Raw(Json.Encode(ViewBag.ReconChart)));
+        var options = {
+            title: 'Evolution of coverage',
+            vAxis:{ 
+                title: "Percent",
+                viewWindow:{
+                        max:101,
+                        min:0
+                }
+            },
+            pointSize:5
+
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('coverage_chart'));
+        chart.draw(data, options);
+    }
+
+</script>
+
+@if (Model != null && Model.Count() > 0)
+{
+<div id="coverage_chart" style="width: 100%; height: 600px;"></div>
+    <small class="pull-left"> 
+    <b class="muted">@MvcHtmlString.Create(" Export to Excel ")</b> 
+    <a href="@Url.Action("ExportCoverage.xlsx", "VmsTufmanRecon", new { tufman = ViewBag.GlobalTufman, gear = ViewBag.GlobalGear, year = ViewBag.GlobalYear, fleet = ViewBag.GlobalFleet })">
+        <i class=" icon-download-alt" title=" Export to Excel" rel="tooltip"></i>
+    </a>
+</small>
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Fleet)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Year)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Gear)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().NbTrips)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().NbVmsTrips)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().NbLogsheet)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsTripCov)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetTripCov)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().RaisedVmsDays)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().NbLogsheetdays)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetDaysCov)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+            var entityCode = item.Fleet.Code;
+            if (item.Fleet.Code.Equals("XX"))
+            {
+                entityCode = item.Country.Code;
+            }
+                    <img src="@Url.Content("~/Content/images/flags/" + entityCode + ".png")" title="entityCode"  alt="entityCode"/> @Html.DisplayFor(modelItem => item.Fleet.Label)
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                <td>@Html.DisplayFor(modelItem => item.Gear.Label)</td>
+                <td>@Html.DisplayFor(modelItem => item.NbTrips)</td>
+                <td>@Html.DisplayFor(modelItem => item.NbVmsTrips)</td>
+                <td>@Html.DisplayFor(modelItem => item.NbLogsheet)</td>
+                <td>@Html.DisplayFor(modelItem => item.VmsTripCov)</td>
+                <td>@Html.DisplayFor(modelItem => item.LogsheetTripCov)</td>
+                <td>@Html.DisplayFor(modelItem => item.RaisedVmsDays)</td>
+                <td>@Html.DisplayFor(modelItem => item.NbLogsheetdays)</td>
+                <td>@Html.DisplayFor(modelItem => item.LogsheetDaysCov)</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Fleet)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Year)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Gear)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().AlbC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().AlbR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().YftC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().YftR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BetC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BetR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SkjC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SkjR)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+            var entityCode = item.Fleet.Code;
+            if (item.Fleet.Code.Equals("XX"))
+            {
+                entityCode = item.Country.Code;
+            }
+                    <img src="@Url.Content("~/Content/images/flags/" + entityCode + ".png")" title="entityCode"  alt="entityCode"/> @Html.DisplayFor(modelItem => item.Fleet.Label)
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                <td>@Html.DisplayFor(modelItem => item.Gear.Label)</td>
+                <td>@Html.DisplayFor(modelItem => item.AlbC)</td>
+                <td>@Html.DisplayFor(modelItem => item.AlbR)</td>
+                <td>@Html.DisplayFor(modelItem => item.YftC)</td>
+                <td>@Html.DisplayFor(modelItem => item.YftR)</td>
+                <td>@Html.DisplayFor(modelItem => item.BetC)</td>
+                <td>@Html.DisplayFor(modelItem => item.BetR)</td>
+                <td>@Html.DisplayFor(modelItem => item.SkjC)</td>
+                <td>@Html.DisplayFor(modelItem => item.SkjR)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+     @MvcHtmlString.Create(" -- No Record -- ");
+}

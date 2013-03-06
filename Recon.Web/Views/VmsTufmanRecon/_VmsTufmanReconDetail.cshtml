@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Recon.Web.Models.VmsTufmanReconModel>
+           
+<script type="text/javascript">
+    $("[rel=tooltip]").tooltip();
+
+    var onNonFishingSuccess = function (response) {
+        toastr.info(response.Status)
+    };
+</script>
+@if (Model != null && Model.Count() > 0)
+{
+<small class="pull-left"> 
+    <b id="Export_To_Excel" class="muted">@MvcHtmlString.Create(" Export to Excel ")</b> 
+    <a href="@Url.Action("ExportIndex.xlsx", "VmsTufmanRecon", new { tufman = ViewBag.GlobalTufman, gear = ViewBag.GlobalGear, vesselName = ViewBag.GlobalVesselName, year = ViewBag.GlobalYear, fleet = ViewBag.GlobalFleet, criteria = ViewBag.GlobalCriteria, fishingCompany = ViewBag.GlobalFishingCompany, minNbDays = ViewBag.GlobalMinNbDays })">
+        <i class=" icon-download-alt" title=" Export to Excel" rel="tooltip"></i>
+    </a>
+</small>
+<small class="pull-right">
+    <i class=" icon-ok-circle" title=" Reconciliation OK" rel="tooltip"/>
+    <b class="muted">@MvcHtmlString.Create("Reconciliation OK")</b>@MvcHtmlString.Create(" | ")
+    <i class=" icon-warning-sign" title=" Missing Logsheet" rel="tooltip"/>
+    <b class="muted">@MvcHtmlString.Create(" Missing VMS or Logsheet")</b>@MvcHtmlString.Create(" | ")
+    <i class=" icon-edit" title=" Click to Alert Non-Fishing Trip" rel="tooltip"/>
+    <b class="muted">@MvcHtmlString.Create("Click to Alert Non-Fishing Trip")</b> 
+</small>
+<table class="table table-bordered table-condensed table-striped" style="text-align: center">
+    <tr>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().Year)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VesselFishingCompany)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VesselName)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VesselFlag)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().Gear)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsStartdate)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsEndDate)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsStartPort)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsEndPort)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetStartdate)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetEndDate)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetStartPort)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetEndPort)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsNbDays)</th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetNbDays)</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Year)</td>
+        <td>@Html.DisplayFor(modelItem => item.VesselFishingCompany)</td>
+        <td>@Html.DisplayFor(modelItem => item.VesselName)</td>
+        <td><img src="@Url.Content("~/Content/images/flags/" + item.VesselFlag.Code + ".png")" title="@item.VesselFlag.Code"  alt="@item.VesselFlag.Code"/> @Html.DisplayFor(modelItem => item.VesselFlag.Label)</td>
+        <td>@Html.DisplayFor(modelItem => item.Gear.Label)</td>
+        <td>@Html.DisplayFor(modelItem => item.VmsStartdate)</td>
+        <td>@Html.DisplayFor(modelItem => item.VmsEndDate)</td>
+        <td>@Html.DisplayFor(modelItem => item.VmsStartPort)</td>
+        <td>@Html.DisplayFor(modelItem => item.VmsEndPort)</td>
+        <td>@Html.DisplayFor(modelItem => item.LogsheetStartdate)</td>
+        <td>@Html.DisplayFor(modelItem => item.LogsheetEndDate)</td>
+        <td>@Html.DisplayFor(modelItem => item.LogsheetStartPort)</td>
+        <td>@Html.DisplayFor(modelItem => item.LogsheetEndPort)</td>
+        <td>@Html.DisplayFor(modelItem => item.VmsNbDays)</td>
+        <td>@Html.DisplayFor(modelItem => item.LogsheetNbDays)</td>
+        <td style="text-align:center;white-space: nowrap;">
+            @if (item.VmsTripId != 0 && item.LogsheetTripId != 0)
+            {
+                <i class=" icon-ok" title=" Reconciliation OK" rel="tooltip"></i> 
+            }
+            else
+            {
+                if (item.VmsTripId != 0)
+                {
+                    if (item.IsFishingTrip)
+                    {
+                        <i class=" icon-warning-sign" title=" Missing Logsheet" rel="tooltip"></i>  @MvcHtmlString.Create(" | ")  
+                        @Ajax.ActionLink(" ", "SetAsNonFishingTrip", "VmsTufmanRecon", new { vmsTripId = item.VmsTripId, tufmanCode = item.Country.Code }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onNonFishingSuccess" }, new { @class = "icon-edit", @title = " Alert Non-Fishing Trip", @rel = "tooltip" })
+                    }
+                    else
+                    {
+                        <i class=" icon-ban-circle" title=" Non-Fishing Trip" rel="tooltip"></i>  
+                    }
+                }
+                else
+                {
+                     <i class=" icon-warning-sign" title=" No VMS Trip" rel="tooltip"></i> 
+                }
+            }
+        </td>
+    </tr>
+
+}
+</table>
+}
+else
+{
+     @MvcHtmlString.Create(" -- No Record -- ");
+}
+
