@@ -1,11 +1,47 @@
 ﻿@model Recon.Web.Models.RegisterModel
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "well form-horizontal" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
 
-    <fieldset>
+    <legend>Enter User details in this form. An Email will automatically be sent with the password generated.</legend>
+    <dl class="dl-horizontal">
+        <dd>&nbsp;</dd>
+        <dt>@Html.LabelFor(m => m.UserName)</dt>
+        <dd>
+           @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName, String.Empty, new { @class = "label label-important" })
+        </dd>
+
+        <dt>@Html.LabelFor(m => m.Email)</dt>
+        <dd>
+           @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email, String.Empty, new { @class = "label label-important" })
+        </dd>
+
+        <dt>@Html.LabelFor(m => m.ConfirmEmail)</dt>
+        <dd>
+           @Html.TextBoxFor(m => m.ConfirmEmail)
+            @Html.ValidationMessageFor(m => m.ConfirmEmail, String.Empty, new { @class = "label label-important" })
+        </dd>
+
+        <dt>@Html.LabelFor(m => m.SelectedCountry)</dt>
+        <dd>
+           @Html.DropDownListFor(m => m.SelectedCountry, Model.Countries, "Select a Country", null)
+           @Html.ValidationMessageFor(m => m.SelectedCountry, String.Empty, new { @class = "label label-important" })
+        </dd>
+
+        <dt>@Html.LabelFor(m => m.SelectedRole)</dt>
+        <dd>
+           @Html.DropDownListFor(m => m.SelectedRole, Model.Roles, "Select a Role", null)
+           @Html.ValidationMessageFor(m => m.SelectedRole, String.Empty, new { @class = "label label-important" })
+        </dd>
+        <dd>
+           <input type="submit" value="Send Request" class="btn btn-primary"/>   
+        </dd>
+    </dl>
+
+    @*<fieldset>
         <legend>Registration Form</legend>
         <ol>
             <li>
@@ -20,14 +56,6 @@
                 @Html.LabelFor(m => m.ConfirmEmail)
                 @Html.TextBoxFor(m => m.ConfirmEmail)
             </li>
-            @*<li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>*@
-@*            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>*@
             <li>
                 @Html.LabelFor(m => m.SelectedCountry)
                 @Html.DropDownListFor(m => m.SelectedCountry, Model.Countries,"Select a Country",null)
@@ -38,7 +66,7 @@
             </li>
         </ol>
         <input type="submit" value="Register" class="btn btn-primary" />
-    </fieldset>
+    </fieldset>*@
 }
 
 @section Scripts {

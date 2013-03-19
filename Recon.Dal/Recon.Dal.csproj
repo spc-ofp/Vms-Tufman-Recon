@@ -54,6 +54,7 @@
     <Compile Include="Maps\Recon\VmsTufmanCoverageMap.cs" />
     <Compile Include="Maps\Recon\VmsTufmanReconMap.cs" />
     <Compile Include="Maps\Reference\TufmanCountryMap.cs" />
+    <Compile Include="Maps\Users\UserProfileMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Maps\Reference\EntityMap.cs" />
     <Compile Include="Maps\Reference\GearMap.cs" />
@@ -67,9 +68,7 @@
       <Name>Recon.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Maps\Users\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

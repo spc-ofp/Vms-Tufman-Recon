@@ -55,6 +55,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\Map\Reference\UserProfileMapTest.cs" />
     <Compile Include="Dal\Map\Reference\EntityMapTest.cs" />
     <Compile Include="Dal\Map\Reference\GearMapTest.cs" />
     <Compile Include="Dal\Map\Reference\TufmanCountryMapTest.cs" />

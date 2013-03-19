@@ -13,9 +13,9 @@ namespace Recon.Dal.Maps.Recon
         {
             ReadOnly();
             Schema("dbo");
-            Table("tufman_last_restore");
+            Table("tufman_last_entry_date");
             Id(x => x.Code).Column("tufman_code");
-            Map(x => x.RestoreDate).Column("restore_date");
+            Map(x => x.RestoreDate).Column("last_entry_date");
         }
     }
 }

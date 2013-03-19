@@ -118,7 +118,8 @@ else
 
 <div id="reconTable" style="display: none;">
 </div>
-
+@if (ViewBag.HidePageGuide == false)
+{
 <ul id="tlyPageGuide" data-tourtitle="CLICK FOR HELP">
   <li class="tlypageguide_right" data-tourtarget="#tufman">
     <div>
@@ -201,6 +202,7 @@ else
       </div>
   </li>
 </ul>
+}
 
 <script type="text/javascript">
     $('#gear').change(function () {
@@ -275,8 +277,8 @@ else
 </script>
 
 <script type="text/javascript">
-    document.getElementById('recon').onclick = function () {
-        if ($('#fishingCompany').val() != 0) {
+        $('#recon').onclick = function () {
+        if ($('#fishingCompany').disabled == false && $('#fishingCompany').val() != 0) {
             $('#fishingCompany').val(0);
             toastr.warning('Coverage cannot be filtered by Fishing Company');
         }

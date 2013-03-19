@@ -6,22 +6,24 @@
     var onNonFishingSuccess = function (response) {
         toastr.info(response.Status)
     };
+
+    function drawChart() { }
 </script>
 @if (Model != null && Model.Count() > 0)
 {
 <small class="pull-left"> 
-    <b id="Export_To_Excel" class="muted">@MvcHtmlString.Create(" Export to Excel ")</b> 
+    <b id="Export_To_Excel">@MvcHtmlString.Create(" Export to Excel ")</b> 
     <a href="@Url.Action("ExportIndex.xlsx", "VmsTufmanRecon", new { tufman = ViewBag.GlobalTufman, gear = ViewBag.GlobalGear, vesselName = ViewBag.GlobalVesselName, year = ViewBag.GlobalYear, fleet = ViewBag.GlobalFleet, criteria = ViewBag.GlobalCriteria, fishingCompany = ViewBag.GlobalFishingCompany, minNbDays = ViewBag.GlobalMinNbDays })">
         <i class=" icon-download-alt" title=" Export to Excel" rel="tooltip"></i>
     </a>
 </small>
 <small class="pull-right">
-    <i class=" icon-ok-circle" title=" Reconciliation OK" rel="tooltip"/>
-    <b class="muted">@MvcHtmlString.Create("Reconciliation OK")</b>@MvcHtmlString.Create(" | ")
+    <i class=" icon-ok" title=" Reconciliation OK" rel="tooltip"/>
+    <b>@MvcHtmlString.Create("Reconciliation OK")</b>@MvcHtmlString.Create(" | ")
     <i class=" icon-warning-sign" title=" Missing Logsheet" rel="tooltip"/>
-    <b class="muted">@MvcHtmlString.Create(" Missing VMS or Logsheet")</b>@MvcHtmlString.Create(" | ")
+    <b>@MvcHtmlString.Create(" Missing VMS or Logsheet")</b>@MvcHtmlString.Create(" | ")
     <i class=" icon-edit" title=" Click to Alert Non-Fishing Trip" rel="tooltip"/>
-    <b class="muted">@MvcHtmlString.Create("Click to Alert Non-Fishing Trip")</b> 
+    <b >@MvcHtmlString.Create("Click to Alert Non-Fishing Trip")</b> 
 </small>
 <table class="table table-bordered table-condensed table-striped" style="text-align: center">
     <tr>
@@ -46,22 +48,21 @@
 @foreach (var item in Model)
 {
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.Year)</td>
-        <td>@Html.DisplayFor(modelItem => item.VesselFishingCompany)</td>
-        <td>@Html.DisplayFor(modelItem => item.VesselName)</td>
-        <td><img src="@Url.Content("~/Content/images/flags/" + item.VesselFlag.Code + ".png")" title="@item.VesselFlag.Code"  alt="@item.VesselFlag.Code"/> @Html.DisplayFor(modelItem => item.VesselFlag.Label)</td>
-        <td>@Html.DisplayFor(modelItem => item.Gear.Label)</td>
-        <td>@Html.DisplayFor(modelItem => item.VmsStartdate)</td>
-        <td>@Html.DisplayFor(modelItem => item.VmsEndDate)</td>
-        <td>@Html.DisplayFor(modelItem => item.VmsStartPort)</td>
-        <td>@Html.DisplayFor(modelItem => item.VmsEndPort)</td>
-        <td>@Html.DisplayFor(modelItem => item.LogsheetStartdate)</td>
-        <td>@Html.DisplayFor(modelItem => item.LogsheetEndDate)</td>
-        <td>@Html.DisplayFor(modelItem => item.LogsheetStartPort)</td>
-        <td>@Html.DisplayFor(modelItem => item.LogsheetEndPort)</td>
-        <td>@Html.DisplayFor(modelItem => item.VmsNbDays)</td>
-        <td>@Html.DisplayFor(modelItem => item.LogsheetNbDays)</td>
-        <td style="text-align:center;white-space: nowrap;">
+        <td>@Html.DisplayFor(modelItem => item.Year)</td><td>
+        @Html.DisplayFor(modelItem => item.VesselFishingCompany)</td><td>
+        @Html.DisplayFor(modelItem => item.VesselName)</td><td>
+        <img src="@Url.Content("~/Content/images/flags/" + item.VesselFlag.Code + ".png")" title="@item.VesselFlag.Label"  alt="@item.VesselFlag.Label"/> @Html.DisplayFor(modelItem => item.VesselFlag.Code)</td><td>
+        @Html.DisplayFor(modelItem => item.Gear.Label)</td><td>
+        @Html.DisplayFor(modelItem => item.VmsStartdate)</td><td>
+        @Html.DisplayFor(modelItem => item.VmsEndDate)</td><td>
+        @Html.DisplayFor(modelItem => item.VmsStartPort)</td><td>
+        @Html.DisplayFor(modelItem => item.VmsEndPort)</td><td>
+        @Html.DisplayFor(modelItem => item.LogsheetStartdate)</td><td>
+        @Html.DisplayFor(modelItem => item.LogsheetEndDate)</td><td>
+        @Html.DisplayFor(modelItem => item.LogsheetStartPort)</td><td>
+        @Html.DisplayFor(modelItem => item.LogsheetEndPort)</td><td>
+        @Html.DisplayFor(modelItem => item.VmsNbDays)</td><td>
+        @Html.DisplayFor(modelItem => item.LogsheetNbDays)</td><td style="text-align:center;white-space: nowrap;">
             @if (item.VmsTripId != 0 && item.LogsheetTripId != 0)
             {
                 <i class=" icon-ok" title=" Reconciliation OK" rel="tooltip"></i> 

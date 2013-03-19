@@ -1,0 +1,11 @@
+﻿@model Recon.Web.Models.MessageModel
+@{
+    ViewBag.Title = "Message";
+}
+
+<img src="@Url.Content("~/Content/images/spc_logo.png")" alt="spc_logo" style="float:left; margin-right: 10px; margin-left: 10px; "/>
+  <h1>@Model.Title</h1>
+  <p>@Model.Body</p>
+  <p>
+<a href=@Url.Action("Index","Home")>Back to main page</a>
+

@@ -1,0 +1,11 @@
+TestResults/*
+packages/*
+*/bin/*
+*/obj/*
+*.suo
+*/bea.log
+*/bea.log.*
+*.user
+*.dmgl
+**/Content/PostImages/*.jpg
+recon.Web/Recon.Web.Publish.xml

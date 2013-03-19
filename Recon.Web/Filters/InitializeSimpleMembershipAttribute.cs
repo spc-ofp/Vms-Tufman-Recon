@@ -38,18 +38,6 @@ namespace Recon.Web.Filters
                             // Create the SimpleMembership database without Entity Framework migration schema
                             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
                         }
-                        if (!Roles.RoleExists("Admin"))
-                        {
-                            Roles.CreateRole("Admin");
-                        }
-                        if (Membership.GetUser("test", false) == null)
-                        {
-                            Membership.CreateUser("brunod", "brunod");
-                        }
-                        if (!new List<String>(Roles.GetRolesForUser("brunod")).Contains("Admin"))
-                        {
-                            Roles.AddUsersToRoles(new[] { "brunod" }, new[] { "Admin" });
-                        } 
                     }
 
                     WebSecurity.InitializeDatabaseConnection("Recon", "UserProfile", "UserId", "UserName", autoCreateTables: true);

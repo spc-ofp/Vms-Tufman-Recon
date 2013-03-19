@@ -51,6 +51,7 @@
     <Compile Include="Reference\Gear.cs" />
     <Compile Include="Reference\TufmanCountry.cs" />
     <Compile Include="Users\RoleList.cs" />
+    <Compile Include="Users\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

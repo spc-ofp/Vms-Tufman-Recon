@@ -16,11 +16,11 @@ namespace Recon.Web.Models
         {
         }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<UserProfileModel> UserProfiles { get; set; }
     }
 
     [Table("UserProfile")]
-    public class UserProfile
+    public class UserProfileModel
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]

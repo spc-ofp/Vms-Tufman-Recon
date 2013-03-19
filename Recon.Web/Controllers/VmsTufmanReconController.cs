@@ -53,7 +53,7 @@ namespace Spc.Ofp.Recon.Web.Controllers
             _role = role[0];
             if (this._role.Equals(RoleList.Country))
             {
-                UserProfile user = context.UserProfiles.SingleOrDefault(u => u.UserName == username);
+                UserProfileModel user = context.UserProfiles.SingleOrDefault(u => u.UserName == username);
                 this._country = user.Country;
             }
         }
@@ -61,6 +61,7 @@ namespace Spc.Ofp.Recon.Web.Controllers
         public ActionResult Index(string tufman)
         {
             GetUserDetails();
+            ViewBag.HidePageGuide = (Request.Browser.Browser.ToUpper() == "IE" && Request.Browser.MajorVersion == 8) ? true :  false;
             if (_role.Equals(RoleList.Admin) || _role.Equals(RoleList.Region))
             {
                 var tufmanList = _repo.GetAll<TufmanCountry>().OrderBy(c=>c.Label).Select(c => new SelectListItem { Value = c.Code, Text = c.Label }).ToList();
@@ -87,7 +88,7 @@ namespace Spc.Ofp.Recon.Web.Controllers
 
             //2. Tufman restore status
             int lastRestore = (DateTime.Now - _repo.Get<TufmanLastRestore>(tufman).RestoreDate).Days;
-            string message = "TUFMAN backup received at SPC " + lastRestore + " day(s) ago !";
+            string message = "TUFMAN last entry received at SPC " + lastRestore + " day(s) ago !";
             if (lastRestore <= 7)
                 ViewBag.successMessage = message;
             else
@@ -144,10 +145,18 @@ namespace Spc.Ofp.Recon.Web.Controllers
             }
             //user clicked on coverage rate
             List<VmsTufmanCoverage> modelList = _reconRepo.FilterCoverage(tufman, gear, year, fleet);
-            List<int> yearLst = modelList.Select(x => x.Year).Distinct().ToList<int>();
-            yearLst.Sort();
-            List<Entity> fleetLst = modelList.Select(x => x.Fleet).Distinct().ToList<Entity>();
+            if(String.IsNullOrEmpty(year))
+                ViewBag.ReconChart = ReconLineChart(modelList);
+            else
+                ViewBag.ReconChart = ReconBarChart(modelList);
+            return PartialView("_Coverage", modelList);
+        }
 
+        private object[][] ReconLineChart(List<VmsTufmanCoverage> vmsTufmanCoverages)
+        {
+            List<int> yearLst = vmsTufmanCoverages.Select(x => x.Year).Distinct().ToList<int>();
+            yearLst.Sort();
+            List<Entity> fleetLst = vmsTufmanCoverages.Select(x => x.Fleet).Distinct().ToList<Entity>();
             object[][] coverageChart = new object[yearLst.Count + 1][];
             object[] headerRow = new object[fleetLst.Count + 1];
             headerRow[0] = "Years";
@@ -164,14 +173,43 @@ namespace Spc.Ofp.Recon.Web.Controllers
                 row[0] = yearLst[j].ToString();
                 for (int i = 0; i < fleetLst.Count; i++)
                 {
-                    VmsTufmanCoverage temp = modelList.Where(x => x.Year.Equals(yearLst[j]) && x.Fleet.Code.Equals(fleetLst[i].Code)).FirstOrDefault();
+                    VmsTufmanCoverage temp = vmsTufmanCoverages.Where(x => x.Year.Equals(yearLst[j]) && x.Fleet.Code.Equals(fleetLst[i].Code)).FirstOrDefault();
                     if (temp != null)
                         row[i + 1] = temp.GetCoverage();
                 }
                 coverageChart[j + 1] = row;
             }
-            ViewBag.ReconChart = coverageChart;
-            return PartialView("_Coverage", modelList);
+            return coverageChart;
+        }
+
+        private object[][] ReconBarChart(List<VmsTufmanCoverage> vmsTufmanCoverages)
+        {
+            List<int> yearLst = vmsTufmanCoverages.Select(x => x.Year).Distinct().ToList<int>();
+            yearLst.Sort();
+            List<Entity> fleetLst = vmsTufmanCoverages.Select(x => x.Fleet).Distinct().ToList<Entity>();
+            object[][] coverageChart = new object[yearLst.Count + 1][];
+            object[] headerRow = new object[fleetLst.Count + 1];
+            headerRow[0] = "Years";
+
+            for (int i = 0; i < fleetLst.Count; i++)
+            {
+                headerRow[i + 1] = fleetLst[i].Label;
+            }
+            coverageChart[0] = headerRow;
+
+            for (int j = 0; j < yearLst.Count; j++)
+            {
+                object[] row = new object[fleetLst.Count + 1];
+                row[0] = yearLst[j].ToString();
+                for (int i = 0; i < fleetLst.Count; i++)
+                {
+                    VmsTufmanCoverage temp = vmsTufmanCoverages.Where(x => x.Year.Equals(yearLst[j]) && x.Fleet.Code.Equals(fleetLst[i].Code)).FirstOrDefault();
+                    if (temp != null)
+                        row[i + 1] = temp.GetCoverage();
+                }
+                coverageChart[j + 1] = row;
+            }
+            return coverageChart;
         }
 
         public ActionResult Fleets(string tufman, string gear)

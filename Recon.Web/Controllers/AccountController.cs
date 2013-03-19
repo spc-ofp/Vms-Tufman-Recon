@@ -5,7 +5,6 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using Recon.Web.Filters;
@@ -102,7 +101,9 @@ namespace Recon.Web.Controllers
                     String subject = String.Format("\"{0}\" - You can now connect to SPC VMS-Tufman Reconciliation ", model.UserName);
                     String body = new TemplatingService().GetTemplatedDocument("NewUserEmail.vm", data);
                     new EmailServices().SendEmail(subject, body, model.Email);
-                    return RedirectToAction("Index", "Home");
+                    MessageModel messageModel = new MessageModel();
+                    messageModel.Body = "An email has been sent to this user with its credentials";
+                    return View("Message", messageModel);
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -159,12 +160,63 @@ namespace Recon.Web.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult RequestPassword()
         {
-            WebSecurity.
+            return View();
         }
 
-        
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RequestPassword(String email)
+        {
+            UserProfile userProfile = _repo.Find<UserProfile>(x => x.Email.Equals(email)).FirstOrDefault();
+            MessageModel messageModel = new MessageModel();
+            if (userProfile != null)
+            {
+                String token = WebSecurity.GeneratePasswordResetToken(userProfile.Name);
+                IDictionary<string, string> data = new Dictionary<string, string>();
+                data.Add("name", userProfile.Name);
+                data.Add("token", token);
+                String subject = String.Format("\"{0}\" - SPC VMS-Tufman Reconciliation - Reset password", userProfile.Name);
+                String body = new TemplatingService().GetTemplatedDocument("ResetPasswordEmail.vm", data);
+                new EmailServices().SendEmail(subject, body, email);
+                messageModel.Body = "An email has been sent with a link to reset your password";
+                return View("Message", messageModel);
+            }
+            messageModel.Title = "Unknown Email";
+            messageModel.Body = String.Format("User with email {0} is not registered in the application", email);
+            return View("Message", messageModel);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ResetPassword(String token)
+        {
+            String password = Membership.GeneratePassword(10, 3);
+            int userId = WebSecurity.GetUserIdFromPasswordResetToken(token);
+            UserProfile userProfile = _repo.Get<UserProfile>(userId);
+            MessageModel messageModel = new MessageModel();
+            if (WebSecurity.ResetPassword(token, password))
+            {
+                IDictionary<string, string> data = new Dictionary<string, string>();
+                data.Add("name", userProfile.Name);
+                data.Add("password", password);
+                String subject = String.Format("\"{0}\" - SPC VMS-Tufman Reconciliation - Reset password", userProfile.Name);
+                String body = new TemplatingService().GetTemplatedDocument("NewPasswordEmail.vm", data);
+                new EmailServices().SendEmail(subject, body, userProfile.Email);
+            }
+            else
+            { 
+                messageModel.Title = "Error";
+                messageModel.Body = "Your password could not be reseted. It may be because the link you used has already been used.";
+
+                return View("Message",messageModel);
+            }
+            messageModel.Body = "An email has been sent with your new password";
+            return View("Message", messageModel);
+        }
 
         //
         // POST: /Account/Manage
@@ -193,7 +245,9 @@ namespace Recon.Web.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        MessageModel messageModel = new MessageModel();
+                        messageModel.Body = "Password modified";
+                        return View("Message", messageModel);
                     }
                     else
                     {

@@ -1,33 +1,30 @@
 ﻿@model Recon.Web.Models.LoginModel
 
-<section id="loginForm">
-
-@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "well" }))
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.RememberMe)
-                @Html.CheckBoxFor(m => m.RememberMe)
-            </li>
-        </ol>
-        <input type="submit" value="Log in" class="btn btn-primary"/>
-    </fieldset>
-    <br />
+    <legend>Enter your username and password to log into the VMS-TUFMAN Reconciliation.</legend>
+    
+    <dl class="dl-horizontal">
+        <dd>&nbsp;</dd>
+        <dt>@Html.LabelFor(m => m.UserName)</dt>
+        <dd>
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName, String.Empty, new { @class = "label label-important" })
+        </dd>
+        <dt>@Html.LabelFor(m => m.Password)</dt>
+        <dd>
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password, String.Empty, new { @class = "label label-important" })
+        </dd>
+        <dd>
+           <input type="submit" value="Log in" class="btn btn-primary"/>   
+        </dd>
+    </dl>
+    <p>      
+        <a href=@Url.Action("RequestPassword")>Forgot your password?</a>
+    </p>
     <p>
         If you don't have an account, you can request one from SPC by <a href="mailto:brunod@spc.int">email</a> (please refer your country in the email)
     </p>
