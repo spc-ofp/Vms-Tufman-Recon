@@ -9,9 +9,9 @@
 
 		<p>
 			Your account to access the SPC VMS-Tufman reconciliation web application has been created.<br/>
-			You can now connect to <a href="http://noufameeweb01.spc.external/recon">the application</a> and login with the following credentials
+			You can now connect to <a href="http://www.spc.int/ofp/recon">the application</a> and login with the following credentials
 		</p>
-			user name: $name
+			user name: $name<br/>
 			password: $password<br/>
 
 			You can change it by clicking on your name on the top right corner and select <b>manage</b>

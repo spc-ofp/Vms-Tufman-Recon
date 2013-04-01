@@ -25,24 +25,25 @@
     <i class=" icon-edit" title=" Click to Alert Non-Fishing Trip" rel="tooltip"/>
     <b >@MvcHtmlString.Create("Click to Alert Non-Fishing Trip")</b> 
 </small>
+<br />
 <table class="table table-bordered table-condensed table-striped" style="text-align: center">
     <tr>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().Year)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VesselFishingCompany)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VesselName)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VesselFlag)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().Gear)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsStartdate)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsEndDate)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsStartPort)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsEndPort)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetStartdate)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetEndDate)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetStartPort)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetEndPort)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().VmsNbDays)</th>
-        <th>@Html.LabelFor(model => Model.FirstOrDefault().LogsheetNbDays)</th>
-        <th></th>
+        <th>@Html.LabelFor(model => Model.FirstOrDefault().Year)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VesselFishingCompany)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VesselName)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VesselFlag)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().Gear)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VmsStartdate)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VmsEndDate)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VmsStartPort)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VmsEndPort)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().LogsheetStartdate)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().LogsheetEndDate)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().LogsheetStartPort)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().LogsheetEndPort)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().VmsNbDays)</th><th>
+        @Html.LabelFor(model => Model.FirstOrDefault().LogsheetNbDays)</th><th>
+        </th>
     </tr>
 
 @foreach (var item in Model)

@@ -9,3 +9,5 @@ packages/*
 *.dmgl
 **/Content/PostImages/*.jpg
 recon.Web/Recon.Web.Publish.xml
+Recon.Web/App_Data/ASPNETDB.MDF
+*/*.ldf

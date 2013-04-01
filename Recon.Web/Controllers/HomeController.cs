@@ -11,15 +11,11 @@ namespace Recon.Web.Controllers
     {
         public ActionResult Index()
         {
-            String temp = Request.Browser.Browser;
-            if (Request.Browser.Browser.ToUpper() == "IE" && Request.Browser.MajorVersion < 8)
-            {
-                return View("UpgradeYourBrowser");
-            }
-            if (Request.Browser.Browser.ToUpper() == "FIREFOX" && Request.Browser.MajorVersion < 4)
-            {
-                return View("UpgradeYourBrowser");
-            }
+            return View();
+        }
+
+        public ActionResult Faq()
+        {
             return View();
         }
     }

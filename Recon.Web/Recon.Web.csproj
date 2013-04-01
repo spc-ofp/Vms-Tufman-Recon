@@ -459,10 +459,6 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\images\spc_logo.png" />
     <Content Include="Content\images\spc_logo_min.png" />
-    <Content Include="Content\images\tlyguide\tlyguide_arrow.png" />
-    <Content Include="Content\images\tlyguide\tlyguide_icon.png" />
-    <Content Include="Content\pageguide.css" />
-    <Content Include="Content\pageguide.min.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -537,10 +533,13 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Scripts\pageguide.js" />
-    <Content Include="Scripts\pageguide.min.js" />
     <Content Include="Scripts\toastr-1.1.5.js" />
     <Content Include="Scripts\toastr-1.1.5.min.js" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Home\FAQs\_UserManagement.cshtml" />
+    <Content Include="Views\Home\FAQs\_Filters.cshtml" />
+    <Content Include="Views\Home\FAQs\_DetailedReport.cshtml" />
+    <Content Include="Views\Home\FAQs\_CoverageReport.cshtml" />
     <None Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

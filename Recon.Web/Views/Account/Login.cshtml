@@ -4,19 +4,19 @@
 {
     @Html.AntiForgeryToken()
 
-    <legend>Enter your username and password to log into the VMS-TUFMAN Reconciliation.</legend>
+    <legend>Enter your username and password to log into the TUFMAN-VMS Reconciliation.</legend>
     
     <dl class="dl-horizontal">
         <dd>&nbsp;</dd>
         <dt>@Html.LabelFor(m => m.UserName)</dt>
         <dd>
             @Html.TextBoxFor(m => m.UserName)
-            @Html.ValidationMessageFor(m => m.UserName, String.Empty, new { @class = "label label-important" })
+            @Html.ValidationMessageFor(m => m.UserName)
         </dd>
         <dt>@Html.LabelFor(m => m.Password)</dt>
         <dd>
             @Html.PasswordFor(m => m.Password)
-            @Html.ValidationMessageFor(m => m.Password, String.Empty, new { @class = "label label-important" })
+            @Html.ValidationMessageFor(m => m.Password)
         </dd>
         <dd>
            <input type="submit" value="Log in" class="btn btn-primary"/>   
