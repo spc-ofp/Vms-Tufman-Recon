@@ -51,6 +51,20 @@ namespace Recon.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = RoleList.Admin)]
+        public ActionResult UserList()
+        {
+            List<UserModel> userModels = new List<UserModel>();
+            List<UserProfile> userProfiles = _repo.GetAll<UserProfile>().ToList();
+            foreach (UserProfile userProfile in userProfiles)
+            {
+                UserModel userModel = new UserModel(userProfile);
+                userModel.Role = Roles.GetRolesForUser(userModel.Login).FirstOrDefault();
+                userModels.Add(userModel);
+            }
+            return View(userModels);
+        }
+
         //
         // POST: /Account/LogOff
 

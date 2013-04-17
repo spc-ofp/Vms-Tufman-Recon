@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Recon.Web.Models;
+using WebMatrix.WebData;
+using System.Web.Security;
 
 namespace Recon.Web.Controllers
 {

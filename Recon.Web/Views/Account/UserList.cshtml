@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Recon.Web.Models.UserModel>
+@{
+    ViewBag.Title = "User List";
+}
+
+<table class="table table-bordered table-condensed table-striped" style="text-align: center">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastConnection)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+            <img src="@Url.Content("~/Content/images/flags/" + item.Country.Code + ".png")" title="@item.Country.Label"  alt="@item.Country.Label"/> @Html.DisplayFor(modelItem => item.Country.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastConnection)
+        </td>
+        <td>
+            <i class=" icon-remove" title="Remove user" rel="tooltip"></i>
+        </td>
+    </tr>
+}
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("[rel=tooltip]").tooltip();
+    }); 
+</script>
