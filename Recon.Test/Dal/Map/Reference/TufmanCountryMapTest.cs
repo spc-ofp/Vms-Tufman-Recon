@@ -18,7 +18,7 @@ namespace Recon.Test.Dal.Map.Reference
             UnitOfWork unitOfWork = new UnitOfWork(NHibernateHelper.SessionFactory);
             Repository repo = new Repository(unitOfWork.Session);
             List<TufmanCountry> list = repo.GetAll<TufmanCountry>().ToList();
-            Assert.AreEqual(15, list.Count);
+            Assert.AreEqual(16, list.Count);
             unitOfWork.Rollback();
             unitOfWork.Dispose();
         }
