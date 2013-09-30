@@ -84,7 +84,10 @@ namespace Spc.Ofp.Recon.Web.Controllers
             for (int i = 0; i < 6; i++)
                 nbDaysLst.Add(i);
 
-            ViewBag.minNbDays = new SelectList(nbDaysLst);
+            SelectList nbDaysSelLst = new SelectList(nbDaysLst,2);
+
+
+            ViewBag.minNbDays = nbDaysSelLst;
 
             //2. Tufman restore status
             int lastRestore = (DateTime.Now - _repo.Get<TufmanLastRestore>(tufman).RestoreDate).Days;

@@ -54,8 +54,22 @@
         @Html.DisplayFor(modelItem => item.VesselName)</td><td>
         <img src="@Url.Content("~/Content/images/flags/" + item.VesselFlag.Code + ".png")" title="@item.VesselFlag.Label"  alt="@item.VesselFlag.Label"/> @Html.DisplayFor(modelItem => item.VesselFlag.Code)</td><td>
         @Html.DisplayFor(modelItem => item.Gear.Label)</td><td>
+        @*@if(item.VmsStartdate.HasValue && item.Year > item.VmsStartdate.Value.Year)
+        {
+            @MvcHtmlString.Create("... in "+(item.Year-1).ToString())
+        }
+        else{       
+            @Html.DisplayFor(modelItem => item.VmsStartdate)}
+                                                           </td><td>*@
         @Html.DisplayFor(modelItem => item.VmsStartdate)</td><td>
         @Html.DisplayFor(modelItem => item.VmsEndDate)</td><td>
+        @* @if (item.VmsEndDate.HasValue && item.Year < item.VmsEndDate.Value.Year)
+        {
+            @MvcHtmlString.Create("... in "+(item.Year+1).ToString())
+        }
+        else{       
+            @Html.DisplayFor(modelItem => item.VmsEndDate)}*@
+                                                                
         @Html.DisplayFor(modelItem => item.VmsStartPort)</td><td>
         @Html.DisplayFor(modelItem => item.VmsEndPort)</td><td>
         @Html.DisplayFor(modelItem => item.LogsheetStartdate)</td><td>

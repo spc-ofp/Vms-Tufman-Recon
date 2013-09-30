@@ -548,6 +548,7 @@
     <Content Include="Views\Home\FAQs\_DetailedReport.cshtml" />
     <Content Include="Views\Home\FAQs\_CoverageReport.cshtml" />
     <Content Include="Views\Account\UserList.cshtml" />
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

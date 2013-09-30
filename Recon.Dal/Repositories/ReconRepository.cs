@@ -75,6 +75,8 @@ namespace Recon.Dal.Repositories
 
             if (!string.IsNullOrEmpty(fleet))
                 vmsTufmanCoverages = vmsTufmanCoverages.Where(x => x.Fleet.Code.Equals(fleet));
+            else
+                vmsTufmanCoverages = vmsTufmanCoverages.Where(x => !x.Fleet.Code.Equals(_nationalFleetCode));
 
             return vmsTufmanCoverages.OrderBy(x => x.Fleet.Label).ThenBy(x => x.Year).ToList();
         }

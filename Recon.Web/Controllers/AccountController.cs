@@ -105,7 +105,7 @@ namespace Recon.Web.Controllers
             {
                 try
                 {
-                    String password = Membership.GeneratePassword(10,3);
+                    String password = Membership.GeneratePassword(10,0);
                     WebSecurity.CreateUserAndAccount(model.UserName, password, new { Country = model.SelectedCountry, Email = model.Email });
                     Roles.AddUserToRole(model.UserName, model.SelectedRole);
                     IDictionary<string, string> data = new Dictionary<string, string>();
