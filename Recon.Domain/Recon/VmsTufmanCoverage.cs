@@ -51,6 +51,54 @@ namespace Recon.Domain.Recon
         public virtual double? SkjC { get; set; }
         [Display(Name = "SKJ RAISED")]
         public virtual double? SkjR { get; set; }
+        [Display(Name = "BUM")]
+        public virtual double? BumC { get; set; }
+        [Display(Name = "BUM RAISED")]
+        public virtual double? BumR { get; set; }
+        [Display(Name = "BLM")]
+        public virtual double? BlmC { get; set; }
+        [Display(Name = "BLM RAISED")]
+        public virtual double? BlmR { get; set; }
+        [Display(Name = "MLS")]
+        public virtual double? MlsC { get; set; }
+        [Display(Name = "MLS RAISED")]
+        public virtual double? MlsR { get; set; }
+        [Display(Name = "SWO")]
+        public virtual double? SwoC { get; set; }
+        [Display(Name = "SWO RAISED")]
+        public virtual double? SwoR { get; set; }
+        [Display(Name = "SFA")]
+        public virtual double? SfaC { get; set; }
+        [Display(Name = "SFA RAISED")]
+        public virtual double? SfaR { get; set; }
+        [Display(Name = "FAL")]
+        public virtual double? FalC { get; set; }
+        [Display(Name = "FAL RAISED")]
+        public virtual double? FalR { get; set; }
+        [Display(Name = "BSH")]
+        public virtual double? BshC { get; set; }
+        [Display(Name = "BSH RAISED")]
+        public virtual double? BshR { get; set; }
+        [Display(Name = "OCS")]
+        public virtual double? OcsC { get; set; }
+        [Display(Name = "OCS RAISED")]
+        public virtual double? OcsR { get; set; }
+        [Display(Name = "THR")]
+        public virtual double? ThrC { get; set; }
+        [Display(Name = "THR RAISED")]
+        public virtual double? ThrR { get; set; }
+        [Display(Name = "MAK")]
+        public virtual double? MakC { get; set; }
+        [Display(Name = "MAK RAISED")]
+        public virtual double? MakR { get; set; }
+        [Display(Name = "HAM")]
+        public virtual double? HamC { get; set; }
+        [Display(Name = "HAM RAISED")]
+        public virtual double? HamR { get; set; }
+        [Display(Name = "POR")]
+        public virtual double? PorC { get; set; }
+        [Display(Name = "POR RAISED")]
+        public virtual double? PorR { get; set; }
 
         public override int GetHashCode()
         {

@@ -92,6 +92,30 @@
             <th>@Html.LabelFor(model => Model.FirstOrDefault().BetR)</th>
             <th>@Html.LabelFor(model => Model.FirstOrDefault().SkjC)</th>
             <th>@Html.LabelFor(model => Model.FirstOrDefault().SkjR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BumC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BumR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BlmC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BlmR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().MlsC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().MlsR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SwoC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SwoR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SfaC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SfaR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().FalC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().FalR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BshC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BshR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().OcsC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().OcsR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().ThrC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().ThrR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().MakC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().MakR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().HamC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().HamR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().PorC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().PorR)</th>
         </tr>
         @foreach (var item in Model)
         {
@@ -116,9 +140,74 @@
                 <td>@Html.DisplayFor(modelItem => item.BetR)</td>
                 <td>@Html.DisplayFor(modelItem => item.SkjC)</td>
                 <td>@Html.DisplayFor(modelItem => item.SkjR)</td>
+                <td>@Html.DisplayFor(modelItem => item.BumC)</td>
+                <td>@Html.DisplayFor(modelItem => item.BumR)</td>
+                <td>@Html.DisplayFor(modelItem => item.BlmC)</td>
+                <td>@Html.DisplayFor(modelItem => item.BlmR)</td>
+                <td>@Html.DisplayFor(modelItem => item.MlsC)</td>
+                <td>@Html.DisplayFor(modelItem => item.MlsR)</td>
+                <td>@Html.DisplayFor(modelItem => item.SwoC)</td>
+                <td>@Html.DisplayFor(modelItem => item.SwoR)</td>
+                <td>@Html.DisplayFor(modelItem => item.SfaC)</td>
+                <td>@Html.DisplayFor(modelItem => item.SfaR)</td>
+                <td>@Html.DisplayFor(modelItem => item.FalC)</td>
+                <td>@Html.DisplayFor(modelItem => item.FalR)</td>
+                <td>@Html.DisplayFor(modelItem => item.BshC)</td>
+                <td>@Html.DisplayFor(modelItem => item.BshR)</td>
+                <td>@Html.DisplayFor(modelItem => item.OcsC)</td>
+                <td>@Html.DisplayFor(modelItem => item.OcsR)</td>
+                <td>@Html.DisplayFor(modelItem => item.ThrC)</td>
+                <td>@Html.DisplayFor(modelItem => item.ThrR)</td>
+                <td>@Html.DisplayFor(modelItem => item.MakC)</td>
+                <td>@Html.DisplayFor(modelItem => item.MakR)</td>
+                <td>@Html.DisplayFor(modelItem => item.HamC)</td>
+                <td>@Html.DisplayFor(modelItem => item.HamR)</td>
+                <td>@Html.DisplayFor(modelItem => item.PorC)</td>
+                <td>@Html.DisplayFor(modelItem => item.PorR)</td>
             </tr>
         }
     </table>
+    @*<br />
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Fleet)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Year)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().Gear)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().AlbC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().AlbR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().YftC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().YftR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BetC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().BetR)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SkjC)</th>
+            <th>@Html.LabelFor(model => Model.FirstOrDefault().SkjR)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+            var entityCode = item.Fleet.Code;
+            if (item.Fleet.Code.Equals("XX"))
+            {
+                entityCode = item.Country.Code;
+            }
+            <img src="@Url.Content("~/Content/images/flags/" + entityCode + ".png")" title="entityCode" alt="entityCode" /> @Html.DisplayFor(modelItem => item.Fleet.Label)
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                <td>@Html.DisplayFor(modelItem => item.Gear.Label)</td>
+                <td>@Html.DisplayFor(modelItem => item.AlbC)</td>
+                <td>@Html.DisplayFor(modelItem => item.AlbR)</td>
+                <td>@Html.DisplayFor(modelItem => item.YftC)</td>
+                <td>@Html.DisplayFor(modelItem => item.YftR)</td>
+                <td>@Html.DisplayFor(modelItem => item.BetC)</td>
+                <td>@Html.DisplayFor(modelItem => item.BetR)</td>
+                <td>@Html.DisplayFor(modelItem => item.SkjC)</td>
+                <td>@Html.DisplayFor(modelItem => item.SkjR)</td>
+            </tr>
+        }
+    </table>*@
 }
 else
 {
